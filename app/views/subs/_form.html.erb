@@ -1,0 +1,22 @@
+<% method = sub.persisted? ? "PATCH" : "POST" %>
+<% action = sub.persisted? ? sub_url(sub) : subs_url %>
+<form action="<%= action %>" method="<%= method %>">
+  <input type="hidden" name="_method" value="<%= method %>">
+  <label for="title">Title</label>
+  <input type="text" id="title" name="sub[title]" value="<%= sub.title %>">
+  <br>
+  <label>Description</label>
+  <br>
+  <textarea name="sub[description]" rows="8" cols="40"><%= sub.description %></textarea>
+  <br>
+  <select name="sub[moderator_id]">
+    <% User.all.each do |user| %>
+      <option value="<%= user.id %>" <%= 'selected' if sub.moderator_id == user.id %>>
+        <%= user.username %>
+      </option>
+    <% end %>
+  </select>
+  <br>
+  <% button_text = sub.persisted? ? "Save" : "Create" %>
+  <input type="submit" value="<%= button_text %>">
+</form>
