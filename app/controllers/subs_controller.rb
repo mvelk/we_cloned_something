@@ -1,4 +1,5 @@
 class SubsController < ApplicationController
+  before_action :is_moderator?, only: [:edit, :destroy]
   def index
     @subs = Sub.all
     render :index
@@ -34,8 +35,8 @@ class SubsController < ApplicationController
   end
 
   def update
-    @sub = Sub.new(sub_params)
-    if @sub.update
+    @sub = Sub.find(params[:id])
+    if @sub.update(sub_params)
       redirect_to sub_url(@sub)
     else
       render :edit
@@ -45,10 +46,16 @@ class SubsController < ApplicationController
   def destroy
     @sub = Sub.find(params[:id])
     @sub.destroy
+    redirect_to subs_url
   end
 
   private
   def sub_params
     params.require(:sub).permit(:title, :description, :moderator_id)
+  end
+
+  def is_moderator?
+    @sub = Sub.find(params[:id])
+    redirect_to sub_url(@sub) if current_user.nil? || current_user.id != @sub.moderator_id
   end
 end

@@ -1,10 +1,17 @@
 module ApplicationHelper
-  def login_button
-    button_to "Log In", new_session_url, method: :get
+  def auth_token
+    "<input name='authenticity_token' type='hidden' value='#{form_authenticity_token}'>".html_safe
   end
 
-  def logout_button
-    button_to "Log Out", session_url, method: :delete
-    ## remember dis ##
+  def delete_button(path)
+    link_to "Delete", path, method: :delete
+  end
+
+  def edit_button(path)
+    link_to "Edit", path, method: :get
+  end
+
+  def create_button(path)
+    button_to "Create", path, method: :get
   end
 end

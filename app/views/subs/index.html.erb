@@ -1,6 +1,8 @@
 <h1>Subs</h1>
   <ul>
   <% @subs.each do |sub| %>
-    <li><%= sub.title %></li>
+    <li><%= link_to sub.title, sub_url(sub), method: :get %> <%= edit_button(edit_sub_url(sub)) %> <%= delete_button(sub_url(sub)) %></li>
   <% end %>
-  </ul> 
+
+  </ul>
+  <%= create_button(new_sub_url) %>

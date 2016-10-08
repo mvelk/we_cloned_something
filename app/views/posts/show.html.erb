@@ -1,0 +1,16 @@
+<h2><%= @post.title %></h2>
+<h3><%= @post.author.username %></h3>
+<h5><%= localize(@post.created_at, format: :long) %></h5>
+
+<label>Related Subs</label>
+<ul>
+  <% @post.subs.each do |sub|  %>
+    <li><%= link_to sub.title, sub_url(sub), method: :get %></li>
+  <% end %>
+</ul>
+
+<h3>Post Content</h3>
+<section>
+  <%= @post.content %>
+    <%= edit_button(edit_post_url(@post)) %> <%= delete_button(post_url(@post)) %>
+</section>
